@@ -1,0 +1,452 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Web Learning | SenKuro</title><meta name="keywords" content="Web"><meta name="author" content="SenKuro"><meta name="copyright" content="SenKuro"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络协议基础TCP&#x2F;IP协议模型Transmission Control Protocol and Internet Protocol.互联网传输过程中用到的一组协议族和互联网模型，协议是促使事物正常运作的一套规则； 数据通信标准分为两类：事实的和法定的 事实标准：未经组织团体承认但己在应用中被广使用和接受的就是事实标准（de facto standard)法定标准：由官方认可的团体制定的标准称为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Learning">
+<meta property="og:url" content="http://heisensoppings.github.io/2022/07/03/Emb/WebLwg/TCP_IP/index.html">
+<meta property="og:site_name" content="SenKuro">
+<meta property="og:description" content="网络协议基础TCP&#x2F;IP协议模型Transmission Control Protocol and Internet Protocol.互联网传输过程中用到的一组协议族和互联网模型，协议是促使事物正常运作的一套规则； 数据通信标准分为两类：事实的和法定的 事实标准：未经组织团体承认但己在应用中被广使用和接受的就是事实标准（de facto standard)法定标准：由官方认可的团体制定的标准称为">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2022-07-03T09:33:17.944Z">
+<meta property="article:modified_time" content="2022-07-03T09:38:13.018Z">
+<meta property="article:author" content="SenKuro">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://heisensoppings.github.io/2022/07/03/Emb/WebLwg/TCP_IP/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Web Learning',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2022-07-03 17:38:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><Link rel="stylesheet" href="/Custom.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/qingxin.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">SenKuro</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Web Learning</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-07-03T09:33:17.944Z" title="Created 2022-07-03 17:33:17">2022-07-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-07-03T09:38:13.018Z" title="Updated 2022-07-03 17:38:13">2022-07-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Web Learning"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="网络协议基础"><a href="#网络协议基础" class="headerlink" title="网络协议基础"></a>网络协议基础</h2><h4 id="TCP-IP协议模型"><a href="#TCP-IP协议模型" class="headerlink" title="TCP/IP协议模型"></a>TCP/IP协议模型</h4><p>Transmission Control Protocol and Internet Protocol.互联网传输过程中用到的一组协议族和互联网模型，协议是促使事物正常运作的一套规则；</p>
+<p>数据通信标准分为两类：事实的和法定的</p>
+<p>事实标准：未经组织团体承认但己在应用中被广使用和接受的就是事实标准（de facto standard)<br>法定标准：由官方认可的团体制定的标准称为法定标准(de jure standard)  例如 ISO IEEE IEFT</p>
+<p>IETF产生两种文件Internet Draft; RFC(Request For Comments);</p>
+<h4 id="分成模型作用"><a href="#分成模型作用" class="headerlink" title="分成模型作用"></a>分成模型作用</h4><p>网络通信的过程很复杂<br>为了降低网络设计的复杂性，将协议讲行了</p>
+<p>分层设计的意义<br>简化相关网络操作<br>解决异种网络互连时所遇到的兼容性它的最大优点是将服务、接口和协最大优点是将服务，接口，协议明确地区分开来<br>服务：某一层为上一层提供一些什么功能<br>接口：上一层如何使用下层的服务<br>协议：如何实现本层的服务</p>
+<ol>
+<li>物理层(硬件间怎么通讯)</li>
+</ol>
+<p>主要定义物理设备标准，如网线的接口类型光纤的接口类型、各种传输介质的传输速率等。它的主要作用是传输比特流，也就是我们常说的数模转换与模数转换，这一层的数据叫做比特；</p>
+<ol start="2">
+<li>数据链路层(数据如何保证正确)</li>
+</ol>
+<p>通过各种控制协议，将有差错的物理信道变为无差错的、能可靠传输数据帧的数据链路；</p>
+<ol start="3">
+<li>网络层(数据从一个网络传输到另一个网络)</li>
+</ol>
+<p>例如局域网之间不同设备之间发送数据的路径选择即路由的功能；</p>
+<ol start="4">
+<li>传输层(保证数据报文的正确传输)</li>
+</ol>
+<p>向用户提供可靠的、端到端的差错和流量控制，保证报文的正确传输。提供建立、连接和拆除传输连接的功能。传输层在网络层基础上，提供“面向连接”和“面向无连接”两种服务</p>
+<ol start="5">
+<li>应用层(协调计算机之间的语言，让用户使用)</li>
+</ol>
+<p>会话层，建立和管理应用程序之间的通信。<br>表示层，解决不同系统之间的通信语法问题<br>应用层，例如写个android程序，web程序去实现需求。</p>
+<table>
+<thead>
+<tr>
+<th>应用层OSI参考模型</th>
+<th>各层解释</th>
+<th>TCP/IP模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用层</td>
+<td>为应用程序提供服务</td>
+<td>应用层</td>
+</tr>
+<tr>
+<td>表示层</td>
+<td>数据格式转化、数据加密</td>
+<td></td>
+</tr>
+<tr>
+<td>会话层</td>
+<td>建立、管理和维护会话</td>
+<td></td>
+</tr>
+<tr>
+<td>传输层</td>
+<td>建立、管理和维护端到端的连接</td>
+<td>传输层</td>
+</tr>
+<tr>
+<td>网络层</td>
+<td>IP选址及路由选择</td>
+<td>网络层</td>
+</tr>
+<tr>
+<td>数据链路层</td>
+<td>提供介质访问和链路管理</td>
+<td>接口层</td>
+</tr>
+<tr>
+<td>物理层</td>
+<td>物理层</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="分层模型工作原理"><a href="#分层模型工作原理" class="headerlink" title="分层模型工作原理"></a>分层模型工作原理</h4><p>封装与解封装</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><h4 id="应用层协议的工作原理"><a href="#应用层协议的工作原理" class="headerlink" title="应用层协议的工作原理"></a>应用层协议的工作原理</h4><p>定义了很多面向应用的协议，应用程序通讨本层协议利用网络完成数据本互的任务，协议不等于程序</p>
+<p>应用层中的应用软件服务模式：客户/服务器和P2P体系结构及混合模式</p>
+<ol>
+<li><p>客户/浏览器-服务器（client-server/ browser-server）<br>客户端/浏览器请求服务器，服务器响应客户端</p>
+</li>
+<li><p>P2P也称为对等体系结构<br>相当于每个人的电脑度可以当服务器，也可以当客户端</p>
+</li>
+<li><p>混合模式<br>客户/服务器-P2P模式结合</p>
+</li>
+</ol>
+<h4 id="HTTP-HTTPS"><a href="#HTTP-HTTPS" class="headerlink" title="HTTP HTTPS"></a>HTTP HTTPS</h4><p>超文本传输协议HTTP(Hyper Text Transfer Protocol)</p>
+<ol>
+<li>HTTP<br>HTTP是一个客户端和服务器端请求和应答的标准(TCP)，应答的服务器上存储着资源，比如HTML文件和图像。应答服务器为源服务器(origin server)， HTTP客户端发起一个请求，建立一个到服务器指定端口（默认是80端口)的TCP连接。HTTP服务器则在那个端口监听客户端发送过来的请求。一旦收到请求，服务器（向客户端）发回一个状态行</li>
+</ol>
+<ul>
+<li><p>URL(统一资源定位符)(<a target="_blank" rel="noopener" href="http://user:pass@www.example.jp/dir/index.htm?uid=1#ch1">http://user:pass@www.example.jp:80/dir/index.htm?uid=1#ch1</a>)</p>
+<table>
+<thead>
+<tr>
+<th>协议方案名</th>
+<th>登录信息(认证)</th>
+<th>服务器地址</th>
+<th>服务器端口号</th>
+<th>带层次的文件路径</th>
+<th>查询字符串</th>
+<th>片段标识符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>http:</td>
+<td>user:pass</td>
+<td><a target="_blank" rel="noopener" href="http://www.example.jp/">www.example.jp</a></td>
+<td>80</td>
+<td>/dir/index.htm</td>
+<td>uid=1</td>
+<td>ch1</td>
+</tr>
+</tbody></table>
+<p>无状态：协议对客户端没有状态存储<br>无连接：HTTP/1.1之前，每次请求需要通过TCP三次握手四次挥手，和服务器重新建立连接<br>基于请求和响应：由客户端发起请求，服务端响应简单快速、灵活<br>通信使用明文、无法保护数据的完整性</p>
+</li>
+</ul>
+<ol start="2">
+<li><p>HTTPS</p>
+<p>基于HTTP协议，通过SSL或TLS提供加密处理数据、验证对方身份以及数据完整件保护内容加密：采用混合加密技术，中间者无法直接查看明文内容验证身份：通过证书认证客户端访问的是自己的服务器保护数据完整性：防止传输的内容被中间人冒充或者算改</p>
+</li>
+</ol>
+<h4 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h4><p>DNS（Domain Name System）“域名系统”，是一种组织成域层次结构的计算机和网络服务命名系统，它用于TCP/IP网络，它所提供的服务是用来将主机名和域名转换为IP地址的工作，即将网址转换为IP地址</p>
+<ul>
+<li>Windows 本地DNS文件地址-C:\Windows\System32\drivers\etc\hosts</li>
+<li>互联网DNS解析服务器 cmd-ipconfig/all查看</li>
+</ul>
+<h4 id="其它应用层协议"><a href="#其它应用层协议" class="headerlink" title="其它应用层协议"></a>其它应用层协议</h4><p>文件传输FTP</p>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><h4 id="端到端的通讯"><a href="#端到端的通讯" class="headerlink" title="端到端的通讯"></a>端到端的通讯</h4><ul>
+<li>端口号<br>用来识别用一台计算机中进行通讯的不同应用程序，也被成为程序地址，定义主机中运行的进程的标识符<br>在TCP/IP协议栈中，端口号是0~65535之间的整数<br>TCP/IP模型中传输层的两个协议TCP和UDP依靠端口号区分不同的讲程</li>
+<li>IANA（Internet Assigned Numbers Authority，互联网地址指派机构），将端口号划分为3个范围：熟知的(0<del>1023)、注册的(1024</del>49151)和动态的(49152~65535)（或私有的）</li>
+<li>CMD查看netstat</li>
+</ul>
+<h4 id="TCP的可靠性"><a href="#TCP的可靠性" class="headerlink" title="TCP的可靠性"></a>TCP的可靠性</h4><p>面向连接的传输-建立连接与拆除连接<br>最大报文段长度-分段与重组<br>传输确认机制-确认与重传机制<br>首部和数据的检验和<br>流量控制-滑动窗口与慢启动</p>
+<p>三次握手与四次挥手(TCP半关闭)</p>
+<p>分段与重组：提升数据传输的效率与可靠性</p>
+<h4 id="TCP-UDP的区别"><a href="#TCP-UDP的区别" class="headerlink" title="TCP/UDP的区别"></a>TCP/UDP的区别</h4><p>TCP数据流协议，UDP数据包协议<br>UDP为应用程序提供面向无连接的服务，传输数据之前源端和目的端不需要建立连接，不需要维护连接状态，收发状态等，因此服务器可同时向多个客户端传输相同的消息，UDP适用于对传输效率要求高的运用</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否连接</td>
+<td>面向连接</td>
+<td>面向无连接</td>
+</tr>
+<tr>
+<td>传输可靠性</td>
+<td>可靠</td>
+<td>不可靠</td>
+</tr>
+<tr>
+<td>应用场合</td>
+<td>传输大量的数据</td>
+<td>传输效率高</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>慢</td>
+<td>快</td>
+</tr>
+</tbody></table>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><h4 id="点到点的通讯"><a href="#点到点的通讯" class="headerlink" title="点到点的通讯"></a>点到点的通讯</h4><p>IP(IPv4、IPv6）相当于OSI参考模型中的网络层<br>网络层的主要作用是“实现终端节点之间的通信，也叫点对点（end-to-end）通信<br>IP大致分为三大作用模块，它们是IP寻址、路由（最终节点为止的转发）以及IP分包与组包</p>
+<h4 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h4><p>IP地址唯一标识一台网络设备，由32个二讲制仿组成<br>IP地址采用点分十讲制格式显示</p>
+<p>IP地址-网络地址+主机地址    </p>
+<p>私有IP地址10.0.0.0<del>10.255.255.255<br>172.16.0.0</del>172.31.255.255<br>192.168.0.0~192.168.255.255</p>
+<p>撞码（masking）区分网络部分和主机部分<br>掩码使用与IP地址一样的格式<br>掩码的网络部分和子网部分全都是1，主机部分全都是0</p>
+<h4 id="IP路由原理"><a href="#IP路由原理" class="headerlink" title="IP路由原理"></a>IP路由原理</h4><p>路由控制（Routing）是指将分组数据发送到最终目标地址的功能。即使网络非常复杂，也可以通过路由控制确定到达目标地址的通路。一旦这个路由控制的运行出现异常，分组数据极有可能“迷失”，无法到达目标地址。因此，一个数据包之所以能够成功地到达最终的目标地址，全靠路由控制</p>
+<p>路由器中时刻维持着一张路由表，所有报文的发送和转发都通过查找路由表从相应端口发送，路由表可以是静态配置的，也可以是动态路由协议产生的，路由表包含目的地址-网络掩码-输出接口-下一跳</p>
+<h4 id="IP的分片-对UDP协议的补充"><a href="#IP的分片-对UDP协议的补充" class="headerlink" title="IP的分片(对UDP协议的补充)"></a>IP的分片(对UDP协议的补充)</h4><h2 id="接口层"><a href="#接口层" class="headerlink" title="接口层"></a>接口层</h2><h4 id="数据链路层-逐跳传递"><a href="#数据链路层-逐跳传递" class="headerlink" title="数据链路层(逐跳传递)"></a>数据链路层(逐跳传递)</h4><p>数据链路层的主要功能是完成<strong>帧发送和帧接收</strong>，包括负责对用户数据进行帧的组装与分解，随时监测物理层的信息监测标志，了解信道的忙闲情况，实现数据链路的收发管理，使用MAC地址进行通讯</p>
+<p>CMD查看ipconfig/all-物理地址</p>
+<p>共享介质型网络指由多个设备共享一个通信介质的一种网络。最早的以太网和FDDI就是介质共享型网络。在这种方式下，设备之间使用同一个载波信道进行发送和接收。为此，基本上采用半双工通信<br>共享介质型网络中有两种介质访间控制方式：一种是争用方式，另一种是令牌传递方式</p>
+<p>非共享介质网络是指不共享介质，是对介质采取专用的一种传输控制方式，在这种方式下，网络中的每个站直连交换机，由交换机负责转发数据顿。此方式下，发送端与接收端并不共享通信介质，因此很多情况下采用全双工通信方式，如交换式以太网  </p>
+<p>无线通信通常使用电磁波、红外线、激光等方式进行传播数据。一般在办公室的局城网范围内组成的较高速的连接称为无线局域网</p>
+<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>物理层通过把上层的比特流（0、1的二进制流）转换为电压的高低、灯光的闪灭等物理信号，将数据传输出去。而接收端收到这些物理的信号以后在将这些电压的高低、灯光的闪灭恢复为比特流（0、1的二进制流），即调制与解调的过程，例如Modem。物理层的规范中包括比特流转换规则、缆线结构和质量以及接口形状等</p>
+<ul>
+<li>机械特性-网络设备与传输介质之间连接器的外形和尺寸、接口引线数目、引线排列方式、固定和锁定装智</li>
+<li>功能特性-规定接口上各种信号线以及各种电平出现的先后顺序，即哪根信号线先动作</li>
+<li>电器特性-接口引线上信号电平表示，什么电平代表1，什么电平代表0</li>
+<li>规程特性-规定接口某一条引线上出现某一电平表示的含义    </li>
+</ul>
+<h4 id="TCP-IP回顾"><a href="#TCP-IP回顾" class="headerlink" title="TCP/IP回顾"></a>TCP/IP回顾</h4><h2 id="TCP三握四挥"><a href="#TCP三握四挥" class="headerlink" title="TCP三握四挥"></a>TCP三握四挥</h2><h3 id="远程登录配置"><a href="#远程登录配置" class="headerlink" title="远程登录配置"></a>远程登录配置</h3><p>本地console 0接口<br>远程-telnet-ssh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">切换CLI窗口快捷键 Ctrl+Tab</span><br><span class="line">AR2220(client) -Copper- AR2220(server)</span><br><span class="line"></span><br><span class="line">两台路由器配置接口地址(AR1 AR2)</span><br><span class="line">system-view //系统模式</span><br><span class="line">sysname AR1 //AR2</span><br><span class="line">INT GigabitEthernet 0/0/0 </span><br><span class="line">IP address 10.1.1.2 24 //10.1.1.1 24</span><br><span class="line">UNDO SH //取消关闭当前端口</span><br><span class="line">QU //退出</span><br><span class="line">display ip interface brief //查看修改结果</span><br><span class="line"></span><br><span class="line">开启Telnet(AR2)</span><br><span class="line">//VTY是路由器的远程登陆的虚拟端口，0 4表示可以同时打开5个会话</span><br><span class="line">user-interface vty 0 4 //进入接口</span><br><span class="line">authentication-mode password ? //123qwe 认证模式密码</span><br><span class="line">user privilege level 15 //用户等级</span><br><span class="line"></span><br><span class="line">测试(AR1)</span><br><span class="line">ping 10.1.1.1</span><br><span class="line">//用户界面</span><br><span class="line">telnet 10.1.1.1 //123qwe，Ctrl ]退出</span><br></pre></td></tr></table></figure>
+
+<h3 id="远程登录下的端到端"><a href="#远程登录下的端到端" class="headerlink" title="远程登录下的端到端"></a>远程登录下的端到端</h3><p>wireshark</p>
+<h3 id="三次握手与四次挥手"><a href="#三次握手与四次挥手" class="headerlink" title="三次握手与四次挥手"></a>三次握手与四次挥手</h3><h3 id="分段与确认等机制"><a href="#分段与确认等机制" class="headerlink" title="分段与确认等机制"></a>分段与确认等机制</h3><h2 id="IP子网划分"><a href="#IP子网划分" class="headerlink" title="IP子网划分"></a>IP子网划分</h2><h3 id="IPV4地址的问题"><a href="#IPV4地址的问题" class="headerlink" title="IPV4地址的问题"></a>IPV4地址的问题</h3><h3 id="可变长子网划分VLSM"><a href="#可变长子网划分VLSM" class="headerlink" title="可变长子网划分VLSM"></a>可变长子网划分VLSM</h3><h3 id="CIDR无类地址"><a href="#CIDR无类地址" class="headerlink" title="CIDR无类地址"></a>CIDR无类地址</h3><h3 id="IP分片"><a href="#IP分片" class="headerlink" title="IP分片"></a>IP分片</h3><p>接收端根据分片报文中的标识符（Identification），标志（Flags），及片偏移（Fragment Offset）字段对分片报文进行重组.<br>标识符用于识别属于同一个数据包的分片，以区别于同一主机或其他主机发送的其它数据包分片，保证分片被正确的重新组合<br>标志字段用于判断是否已经收到最后一个分片<br>片偏移字段表示每个分片在原始报文中的位置。第一个分片的片偏移为0，第二个分片的片偏移表示紧跟第一个分片后的第一个比特的位置</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>IP分片</th>
+<th>IP分片 1480</th>
+<th>DF MF FO</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据链路头部（1500 B）</td>
+<td>IP头部 20</td>
+<td>ICMP头部 0</td>
+<td>数据data 1480</td>
+<td>0 1 0 IPV4</td>
+</tr>
+<tr>
+<td>数据链路头部（1500 B）</td>
+<td>IP头部 20</td>
+<td>ICMP头部 0</td>
+<td>数据data 1480</td>
+<td>0 1 1480 IPV4</td>
+</tr>
+<tr>
+<td>数据链路头部（1500 B）</td>
+<td>IP头部 20</td>
+<td>ICMP头部 8</td>
+<td>数据data 40</td>
+<td>0 0 2960 ICMP</td>
+</tr>
+</tbody></table>
+<ul>
+<li>ICMP 3000 B</li>
+<li>Don’t fragment</li>
+<li>More fragment</li>
+<li>Fragment offset</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># size 3000字节数据包</span></span><br><span class="line">$ ping ipdress -L 3000</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="TTL值-Time-To-Live"><a href="#TTL值-Time-To-Live" class="headerlink" title="TTL值(Time To Live)"></a>TTL值(Time To Live)</h3><ul>
+<li>报文在网段间转发时，如果网络设备上的路由规划不合理，就可能会出现环路，导致报文在网络中无眼循环，无法到达目的端。环路发生后，所有发往这个目的地的报文都会被循环转发，随着这种报文逐渐增多，网络将会发生拥塞，没经过一个设备TTL值减一，减为零时丢弃数据包</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IP route-static ipdress GigabitEthernet 0/0/x ipdress</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>xp TTL值</th>
+<th>win7</th>
+<th>win10</th>
+<th>linux</th>
+<th>unix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>128</td>
+<td>64</td>
+<td>128</td>
+<td>64</td>
+<td>255</td>
+</tr>
+</tbody></table>
+<h3 id="IP报文再探"><a href="#IP报文再探" class="headerlink" title="IP报文再探"></a>IP报文再探</h3><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Header Length</th>
+<th>Total Length</th>
+<th>Header Checksum</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>版本号(Ipv4 4)</td>
+<td>头部长度(四位最大 0xF)</td>
+<td>总长度(最大 65535)，超过MTU(1500)值即分片</td>
+<td>头部校验和 IP</td>
+</tr>
+</tbody></table>
+<ul>
+<li>服务类型（Type Of Service，TOS）：4位TOS字段分别表示最小延时、最大吞吐量、最高可靠件、最小费用，其中最多有一个能置为1。应用程序根据实际需要来设置TOS值，如ssh和telnet这样的登录程序需要的是最小延时的服务，文件传输ftp需要的是最大吞吐量的服务</li>
+</ul>
+<h2 id="ICMP-ARP协议"><a href="#ICMP-ARP协议" class="headerlink" title="ICMP ARP协议"></a>ICMP ARP协议</h2><h3 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h3><ul>
+<li>用来传递差错，控制，查询等信息</li>
+<li>Tracert</li>
+</ul>
+<h3 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h3><ul>
+<li>当网络设备有数据要发送给另一台网络设备时，必须要知道对方的网络层地址（即IP地址）IP地址由网络层来提供，但是仅有IP地址是不够的，IP数据报文必须封装成帧才能通过数据链路进行发送，数据帧必须包含的MAC地址，因此发送端还必须获取到目的MAC地址，通过目的IP地址来获取目的MAC地址的过程是由端ARP（Address Resolution Protocol）协议来实现的</li>
+<li>是解决目的IP与目的MAC关系的</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ arp -a</span><br><span class="line">$ arp -d //删除表</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代理ARP<br>同一网段，目标IP的MAC<br>跨网段且有网关时，网关MAC<br>跨网段无网关时，代理ARP</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ arp-proxy <span class="built_in">enable</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据通讯过程"><a href="#数据通讯过程" class="headerlink" title="数据通讯过程"></a>数据通讯过程</h3><h4 id="数据传输过程"><a href="#数据传输过程" class="headerlink" title="数据传输过程"></a>数据传输过程</h4><h4 id="数据传输故障基本排错思路"><a href="#数据传输故障基本排错思路" class="headerlink" title="数据传输故障基本排错思路"></a>数据传输故障基本排错思路</h4><h3 id="01和电光之间的转换"><a href="#01和电光之间的转换" class="headerlink" title="01和电光之间的转换"></a>01和电光之间的转换</h3><h4 id="传输介质"><a href="#传输介质" class="headerlink" title="传输介质"></a>传输介质</h4><h4 id="双工模式"><a href="#双工模式" class="headerlink" title="双工模式"></a>双工模式</h4></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">SenKuro</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://heisensoppings.github.io/2022/07/03/Emb/WebLwg/TCP_IP/">http://heisensoppings.github.io/2022/07/03/Emb/WebLwg/TCP_IP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Web/">Web</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/03/Emb/WebLwg/mashiro/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">mashiro datas</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/03/Emb/Python/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Python Learning</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/07/03/Emb/WebLwg/mashiro/" title="mashiro datas"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-03</div><div class="title">mashiro datas</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/qingxin.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">SenKuro</div><div class="author-info__description">description is East Project</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/heisensoppings" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:heisensoppings@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">网络协议基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.0.1.</span> <span class="toc-text">TCP&#x2F;IP协议模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%88%90%E6%A8%A1%E5%9E%8B%E4%BD%9C%E7%94%A8"><span class="toc-number">1.0.2.</span> <span class="toc-text">分成模型作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.0.3.</span> <span class="toc-text">分层模型工作原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">2.</span> <span class="toc-text">应用层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">2.0.1.</span> <span class="toc-text">应用层协议的工作原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP-HTTPS"><span class="toc-number">2.0.2.</span> <span class="toc-text">HTTP HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS"><span class="toc-number">2.0.3.</span> <span class="toc-text">DNS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.0.4.</span> <span class="toc-text">其它应用层协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9A%84%E9%80%9A%E8%AE%AF"><span class="toc-number">3.0.1.</span> <span class="toc-text">端到端的通讯</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-number">3.0.2.</span> <span class="toc-text">TCP的可靠性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-UDP%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.0.3.</span> <span class="toc-text">TCP&#x2F;UDP的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">网络层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%82%B9%E5%88%B0%E7%82%B9%E7%9A%84%E9%80%9A%E8%AE%AF"><span class="toc-number">4.0.1.</span> <span class="toc-text">点到点的通讯</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="toc-number">4.0.2.</span> <span class="toc-text">IP地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E5%8E%9F%E7%90%86"><span class="toc-number">4.0.3.</span> <span class="toc-text">IP路由原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IP%E7%9A%84%E5%88%86%E7%89%87-%E5%AF%B9UDP%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%A1%A5%E5%85%85"><span class="toc-number">4.0.4.</span> <span class="toc-text">IP的分片(对UDP协议的补充)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="toc-number">5.</span> <span class="toc-text">接口层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82-%E9%80%90%E8%B7%B3%E4%BC%A0%E9%80%92"><span class="toc-number">5.0.1.</span> <span class="toc-text">数据链路层(逐跳传递)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">5.0.2.</span> <span class="toc-text">物理层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-IP%E5%9B%9E%E9%A1%BE"><span class="toc-number">5.0.3.</span> <span class="toc-text">TCP&#x2F;IP回顾</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E4%B8%89%E6%8F%A1%E5%9B%9B%E6%8C%A5"><span class="toc-number">6.</span> <span class="toc-text">TCP三握四挥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE"><span class="toc-number">6.1.</span> <span class="toc-text">远程登录配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E4%B8%8B%E7%9A%84%E7%AB%AF%E5%88%B0%E7%AB%AF"><span class="toc-number">6.2.</span> <span class="toc-text">远程登录下的端到端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">6.3.</span> <span class="toc-text">三次握手与四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E4%B8%8E%E7%A1%AE%E8%AE%A4%E7%AD%89%E6%9C%BA%E5%88%B6"><span class="toc-number">6.4.</span> <span class="toc-text">分段与确认等机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E5%AD%90%E7%BD%91%E5%88%92%E5%88%86"><span class="toc-number">7.</span> <span class="toc-text">IP子网划分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IPV4%E5%9C%B0%E5%9D%80%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">7.1.</span> <span class="toc-text">IPV4地址的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E5%8F%98%E9%95%BF%E5%AD%90%E7%BD%91%E5%88%92%E5%88%86VLSM"><span class="toc-number">7.2.</span> <span class="toc-text">可变长子网划分VLSM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CIDR%E6%97%A0%E7%B1%BB%E5%9C%B0%E5%9D%80"><span class="toc-number">7.3.</span> <span class="toc-text">CIDR无类地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%88%86%E7%89%87"><span class="toc-number">7.4.</span> <span class="toc-text">IP分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TTL%E5%80%BC-Time-To-Live"><span class="toc-number">7.5.</span> <span class="toc-text">TTL值(Time To Live)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E6%8A%A5%E6%96%87%E5%86%8D%E6%8E%A2"><span class="toc-number">7.6.</span> <span class="toc-text">IP报文再探</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ICMP-ARP%E5%8D%8F%E8%AE%AE"><span class="toc-number">8.</span> <span class="toc-text">ICMP ARP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP"><span class="toc-number">8.1.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">8.2.</span> <span class="toc-text">ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E8%AE%AF%E8%BF%87%E7%A8%8B"><span class="toc-number">8.3.</span> <span class="toc-text">数据通讯过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B"><span class="toc-number">8.3.1.</span> <span class="toc-text">数据传输过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%95%85%E9%9A%9C%E5%9F%BA%E6%9C%AC%E6%8E%92%E9%94%99%E6%80%9D%E8%B7%AF"><span class="toc-number">8.3.2.</span> <span class="toc-text">数据传输故障基本排错思路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#01%E5%92%8C%E7%94%B5%E5%85%89%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">8.4.</span> <span class="toc-text">01和电光之间的转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="toc-number">8.4.1.</span> <span class="toc-text">传输介质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8C%E5%B7%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">8.4.2.</span> <span class="toc-text">双工模式</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/Emb/WebLwg/mashiro/" title="mashiro datas"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mashiro datas"/></a><div class="content"><a class="title" href="/2022/07/03/Emb/WebLwg/mashiro/" title="mashiro datas">mashiro datas</a><time datetime="2022-07-03T09:33:17.945Z" title="Created 2022-07-03 17:33:17">2022-07-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/Emb/WebLwg/TCP_IP/" title="Web Learning"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Web Learning"/></a><div class="content"><a class="title" href="/2022/07/03/Emb/WebLwg/TCP_IP/" title="Web Learning">Web Learning</a><time datetime="2022-07-03T09:33:17.944Z" title="Created 2022-07-03 17:33:17">2022-07-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/Emb/Python/" title="Python Learning"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python Learning"/></a><div class="content"><a class="title" href="/2022/07/03/Emb/Python/" title="Python Learning">Python Learning</a><time datetime="2022-07-03T09:32:48.358Z" title="Created 2022-07-03 17:32:48">2022-07-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/Emb/ds/" title="ds Learning"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ds Learning"/></a><div class="content"><a class="title" href="/2022/07/03/Emb/ds/" title="ds Learning">ds Learning</a><time datetime="2022-07-03T09:32:48.320Z" title="Created 2022-07-03 17:32:48">2022-07-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/03/Emb/QT/Qt/" title="QT Learning"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QT Learning"/></a><div class="content"><a class="title" href="/2022/07/03/Emb/QT/Qt/" title="QT Learning">QT Learning</a><time datetime="2022-07-03T09:32:48.285Z" title="Created 2022-07-03 17:32:48">2022-07-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By SenKuro</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/miku.model.json"},"display":{"position":"right","width":400,"height":800,"hOffset":-40,"vOffset":-260},"mobile":{"show":true},"react":{"opacity":0.9},"log":false});</script></body></html>
